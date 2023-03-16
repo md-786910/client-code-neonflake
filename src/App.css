@@ -69,3 +69,43 @@ label {
   font-size: 18px;
   line-height: 30px;
 }
+.chatBox {
+  padding: 1em;
+  width: 100%;
+  border: 5px solid black;
+  border-radius: 10px;
+  height: 20px;
+  height: 80dvh;
+  overflow-y: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.chatBox p {
+  line-height: 1.2em;
+  font-size: 18px;
+  font-weight: 500;
+}
+.leftChat {
+  width: 50%;
+}
+.leftChatBox {
+  margin-top: 0.6em;
+  max-width: 500px;
+  border: 2px solid black;
+  border-radius: 5px 10px 0;
+  padding: 5px;
+}
+.rightChat {
+  width: 50%;
+}
+.rightChatBox {
+  margin-top: 0.5em;
+  border: 2px solid black;
+  border-radius: 5px 10px 0;
+  padding: 5px;
+}
+#exampleFormControlInput1 {
+  border: 2px solid black;
+  font-size: 18px;
+}
