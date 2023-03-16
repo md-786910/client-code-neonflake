@@ -1,0 +1,71 @@
+.app {
+  position: relative;
+}
+.logo {
+  display: inline-block;
+  font-size: 1.5em;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.navbar-nav li {
+  font-size: 18px;
+}
+
+.navbar-nav li a:hover {
+  color: #f0f0f0a8 !important;
+}
+.p-0 {
+  padding: 0;
+  margin: 0;
+}
+.spacer {
+  max-width: 1250px;
+  margin: 5em auto;
+  padding: 1em;
+}
+.textForm {
+  padding: 1em;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+.btn-upload {
+  background-color: #5d47e8;
+  color: white;
+  outline: none;
+  border: none;
+  padding: 0.7em 3em;
+  font-size: 18px;
+  border-radius: 5px;
+}
+label {
+  font-weight: 600;
+  font-size: 16px;
+}
+.card-video {
+  border-radius: 0px !important;
+  border: none !important;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+  cursor: pointer !important;
+}
+.videoCard a {
+  text-decoration: none !important;
+  font-weight: 500;
+  color: black !important;
+}
+.videoBox {
+  display: grid;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.desc {
+  margin-top: 2em;
+}
+.desc p {
+  color: white;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 30px;
+}
