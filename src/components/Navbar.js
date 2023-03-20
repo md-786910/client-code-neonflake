@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import VDO from "../image/vdo.svg"
 function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-success fixed-top ">

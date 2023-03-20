@@ -23,6 +23,10 @@ function Chat() {
                         setLoader(false);
                         setChatResp([...chatResp, response.data.resp.content])
                         setPara("")
+                    } else {
+                        if (response.data.success === false) {
+                            alert(response.data.message)
+                        }
                     }
                 });
             } else {
