@@ -4,13 +4,13 @@ import { API } from "./api"
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-function Home() {
+function Cart() {
     const [loader, setLoader] = useState(true);
     const [product, setProduct] = useState([])
 
-    const fetchProduct = async () => {
+    const fetchCart = async () => {
         try {
-            const resp = await axios(`${API}/getProduct`)
+            const resp = await axios(`${API}/getCart`)
             if (resp.data.success) {
                 setProduct(resp.data.data)
                 setLoader(false)
@@ -22,9 +22,9 @@ function Home() {
         }
     }
 
-    const deleteProduct = async (id) => {
+    const deleteCart = async (id) => {
         try {
-            const resp = await fetch(`${API}/deleteProduct`, {
+            const resp = await fetch(`${API}/deleteCart`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -35,7 +35,9 @@ function Home() {
             const data = await resp.json();
             if (data.success) {
                 setLoader(false)
-                fetchProduct();
+                // fetchCart();
+                window.location.reload();
+
             } else {
                 return;
             }
@@ -46,40 +48,15 @@ function Home() {
     }
 
 
-    const addToCart = async (id) => {
-        try {
-            const resp = await fetch(`${API}/carts`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ id: id })
-            })
-            setLoader(true)
-            const data = await resp.json();
-            if (data.success) {
-                window.location.reload();
-                setLoader(false)
-                fetchProduct();
-            } else {
-                return;
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-
-
     useEffect(() => {
-        fetchProduct();
+        fetchCart();
     }, [])
     return (
 
         <Container fluid className="p-0 mt-5">
             <div className="spacer">
                 <h1 className='my-4'>
-                    Your Product
+                    Your Cart
                 </h1>
                 <div className="loader my-5">
                     {
@@ -120,9 +97,7 @@ function Home() {
                                                 <td>
                                                     <div className="actionBtn d-flex gap-2 justify-content-between align-items-center">
 
-                                                        <Link to={`/add-product/${p._id}`}><button className='btn btn-primary'>Edit</button></Link>
-                                                        <button className='btn btn-danger' onClick={() => deleteProduct(p._id)}>Delete</button>
-                                                        <button className='btn btn-info' onClick={() => addToCart(p._id)}>Add  To Cart</button>
+                                                        <button className='btn btn-danger' onClick={() => deleteCart(p._id)}>Delete</button>
 
                                                     </div>
 
@@ -136,8 +111,8 @@ function Home() {
                         </table>
 
                     </div> : <div>
-                        <h4>Empty Product</h4>
-                        <Link to="/add-product">
+                        <h4>Empty Cart</h4>
+                        <Link to="/">
                             <button className='btn btn-success'>Add Product</button>
                         </Link>
                     </div>
@@ -152,4 +127,4 @@ function Home() {
     )
 }
 
-export default Home
+export default Cart

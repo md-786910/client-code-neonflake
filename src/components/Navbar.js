@@ -1,6 +1,28 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { API } from "../page/api"
+import axios from 'axios';
 function Navbar() {
+
+    const [len, setLen] = useState([]);
+
+
+    const fetchProduct = async () => {
+        try {
+            const resp = await axios(`${API}/getCart`)
+            if (resp.data.success) {
+                setLen(resp.data.data)
+            } else {
+                return;
+            }
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+    useEffect(() => {
+        fetchProduct();
+    }, [])
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-success fixed-top ">
             <div className="container-fluid ">
@@ -21,7 +43,15 @@ function Navbar() {
                             <Link className="nav-link active" aria-current="page" to="/chat">Chat</Link>
                         </li>
 
+
                     </ul>
+                    <div className="cart">
+                        <Link className="nav-link active" aria-current="page" to="/carts">
+                            <button className='btn btn-warning'>Carts &nbsp;
+                                <span class="badge bg-danger">{len.length}</span>
+                            </button>
+                        </Link>
+                    </div>
 
                 </div>
             </div>
