@@ -3,8 +3,6 @@ import { Container, Spinner } from 'react-bootstrap'
 import { API } from "./api"
 import axios from 'axios';
 
-
-
 function Chat() {
     const [loader, setLoader] = useState(false)
     const [para, setPara] = useState("")
@@ -18,10 +16,11 @@ function Chat() {
             if (para) {
                 setQues([...ques, para]);
                 axios.post(`${API}/chat`, { para: para }).then(async (response) => {
-                    console.log(response);
                     if (response.data.success === true) {
+                        console.log(response.data.resp.content.split("\n").join("\n"));
                         setLoader(false);
-                        setChatResp([...chatResp, response.data.resp.content])
+                        setChatResp([...chatResp, response.data.resp.content.split("\n").join("\n")
+                        ])
                         setPara("")
                     } else {
                         if (response.data.success === false) {
@@ -58,7 +57,6 @@ function Chat() {
                                         <div className="leftChatBox d-flex align-items-center gap-3" >
                                             <img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDyjzMOo0F0BAhDNmTS0mGWPjENA69z6FBgg&usqp=CAU"} width="40" alt="assis" />
                                             <code><p dangerouslySetInnerHTML={{ __html: chatResp[index] }} /></code>
-
                                         </div>
                                     </div>
                                 )
