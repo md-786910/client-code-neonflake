@@ -1,92 +1,130 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Container, Spinner } from 'react-bootstrap'
-import { API } from "./api"
-import axios from 'axios';
+import React, { useState, useEffect, useCallback } from "react";
+import axios from "axios";
+import { Table } from "react-bootstrap";
+import { createChatCompletionFn } from '../components/chatGPTchatCompletion';
+import { API } from "./api";
 
 function Chat() {
-    const [loader, setLoader] = useState(false)
-    const [para, setPara] = useState("")
-    const divRef = useRef();
-    const [chatResp, setChatResp] = useState(["Hello! How can I assist you today?"])
+    const [products, setProducts] = useState([]);
+    const [prompt, setPrompt] = useState("");
+    const [response, setResponse] = useState("");
+    const [loading, setLoading] = useState("");
 
-    const [ques, setQues] = useState(["Hi"]);
-    const chatBtn = async () => {
-        setLoader(true);
-        try {
-            if (para) {
-                setQues([...ques, para]);
-                axios.post(`${API}/chat`, { para: para }).then(async (response) => {
-                    if (response.data.success === true) {
-                        console.log(response.data.resp.content.split("\n").join("\n"));
-                        setLoader(false);
-                        setChatResp([...chatResp, response.data.resp.content.split("\n").join("\n")
-                        ])
-                        setPara("")
-                    } else {
-                        if (response.data.success === false) {
-                            alert(response.data.message)
-                        }
-                    }
-                });
-            } else {
-                return;
+    const validateForm = useCallback(() => prompt !== "", [prompt]);
+
+    const handleReset = useCallback((e) => {
+        e.preventDefault();
+        setPrompt("");
+        setResponse("");
+    }, []);
+
+    const handleSubmit = useCallback(async (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+            try {
+                setLoading(true);
+                const data = await createChatCompletionFn(prompt, products);
+                setResponse(data);
+            } catch (err) {
+                console.log(err);
+                setResponse("Error fetching data");
+            } finally {
+                setLoading(false);
             }
-        } catch (error) {
-            console.log(error);
         }
-    }
+    }, [products, prompt, validateForm]);
 
+    const handleKeyPress = useCallback(
+        (e) => {
+            if (e.key === "Enter") {
+                handleSubmit(e);
+            }
+        },
+        [handleSubmit]
+    );
 
     useEffect(() => {
-        var objDiv = document.getElementById("your_div");
-        objDiv.scrollTop = objDiv.scrollHeight + 50;
-    }, [])
+        axios
+            // .get("https://dummyjson.com/products?limit=70")
+            .get(`${API}/getProduct`)
+            .then(({ data }) => {
+                console.log(data);
+                // setProducts(data?.products);
+                setProducts(data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
 
     return (
-        <Container fluid className="p-0 mt-5">
-            <div className="spacer1">
-                <div >
-                    <div className="chatBox" id="your_div">
-                        {
-                            ques && ques.map((que, index) => {
-                                return (
-                                    <div className="mb-3" key={index} id="your_div">
-                                        <div className="rightChatBox ">
-                                            <p key={index}>user : {que}</p>
-                                        </div>
-                                        <div className="leftChatBox d-flex align-items-center gap-3" >
-                                            <img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDyjzMOo0F0BAhDNmTS0mGWPjENA69z6FBgg&usqp=CAU"} width="40" alt="assis" />
-                                            <code><p dangerouslySetInnerHTML={{ __html: chatResp[index] }} /></code>
-                                        </div>
-                                    </div>
-                                )
-                            })
-                        }
-
-
-                        <div className="loader mt-3">
-                            {
-                                loader && <Spinner size={30} variant='info' animation="border" role="status">
-                                    <span className="visually-hidden">Loading...</span>
-                                </Spinner>
-                            }
+        <>
+            <div className="container">
+                <div className="card ">
+                    <div className="card-body">
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group mb-3">
+                                <label className="chatbot-header">Ask your query</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    value={prompt}
+                                    onChange={(e) => setPrompt(e.target.value)}
+                                    required
+                                    placeholder="What is the price of iphone X?"
+                                    onKeyDown={handleKeyPress}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <button type="submit" className="btn btn-primary" >
+                                    {loading ? 'Searching...' : 'Search'}
+                                </button>
+                                <button
+                                    type="reset"
+                                    className="btn btn-secondary ml-2"
+                                    onClick={handleReset}
+                                >
+                                    Clear
+                                </button>
+                            </div>
+                        </form>
+                        <div className="chatbot-response">
+                            <p>Answer:</p>
+                            {loading ? 'Processing...' : response ? '' : 'Enter Your Query'}
+                            {response && <p>{response}</p>}
                         </div>
-
-
-                    </div>
-                    <div className="">
-                        <div>
-                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="john doe" name="para" value={para} onChange={(e) => setPara(e.target.value)} />
-                        </div>
-                        <button className='mt-1 btn btn-outline-dark' onClick={() => chatBtn()}>submit</button>
-
-
                     </div>
                 </div>
-
             </div>
-        </Container>
-    )
+
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Product Description</th>
+                        <th>Product Price (in Rs) </th>
+                        <th>Product Qty</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {products?.map((product) => (
+                        <tr key={product._id}>
+                            <td>{product?._id}</td>
+                            <td>{product?.productName}</td>
+                            <td>{product?.description}</td>
+                            <td>{product.price}</td>
+                            <td>{product.qty}</td>
+                            <td style={{ width: "10%" }}>
+                                <img src={product.image} alt="img" style={{ width: "100%" }} />
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
+        </>
+    );
 }
 
-export default Chat
+export default Chat;

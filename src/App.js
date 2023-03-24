@@ -13,12 +13,12 @@ function App() {
 
 
 
+  // <Route path='/add-product' element={<AddProduct />} />
   return (
     <div className="app">
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/add-product' element={<AddProduct />} />
         <Route path='/carts' element={<Cart />} />
         <Route path='/add-product/:id' element={<EditPage />} />
         <Route path='/chat' element={<Chat />} />

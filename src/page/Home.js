@@ -76,12 +76,10 @@ function Home() {
     }, [])
     return (
 
-        <Container fluid className="p-0 mt-5">
+        <Container fluid className="p-0">
             <div className="spacer">
-                <h1 className='my-4'>
-                    Your Product
-                </h1>
-                <div className="loader my-5">
+
+                <div className="loader ">
                     {
                         loader && <Spinner size={30} variant='success' animation="border" role="status">
                             <span className="visually-hidden">Loading...</span>
@@ -90,7 +88,7 @@ function Home() {
                 </div>
 
                 {
-                    product.length > 0 ? <div className="mt-5">
+                    product.length > 0 ? <div className="">
                         <table class="table table-group-divider table-hover table-responsive table-striped">
                             <thead>
                                 <tr>
@@ -98,6 +96,7 @@ function Home() {
                                     <th scope="col">Product Name</th>
                                     <th scope="col">Product Description</th>
                                     <th scope="col">Qty</th>
+                                    <th scope="col">Price</th>
                                     <th scope="col">Image</th>
                                     <th scope="col">Last Upadates</th>
                                     <th scope="col">Actions</th>
@@ -113,6 +112,7 @@ function Home() {
                                                 <td>{p.productName}</td>
                                                 <td>{p.description}</td>
                                                 <td>{p.qty}</td>
+                                                <td>{p.price}</td>
                                                 <td style={{ width: "10%" }}>
                                                     <img src={p.image} alt="img" style={{ width: "100%" }} />
                                                 </td>
@@ -120,8 +120,6 @@ function Home() {
                                                 <td>
                                                     <div className="actionBtn d-flex gap-2 justify-content-between align-items-center">
 
-                                                        <Link to={`/add-product/${p._id}`}><button className='btn btn-primary'>Edit</button></Link>
-                                                        <button className='btn btn-danger' onClick={() => deleteProduct(p._id)}>Delete</button>
                                                         <button className='btn btn-info' onClick={() => addToCart(p._id)}>Add  To Cart</button>
 
                                                     </div>
@@ -150,6 +148,10 @@ function Home() {
         </Container>
 
     )
+
 }
+
+/*     <Link to={`/add-product/${p._id}`}><button className='btn btn-primary'>Edit</button></Link>
+                                                        <button className='btn btn-danger' onClick={() => deleteProduct(p._id)}>Delete</button> */
 
 export default Home

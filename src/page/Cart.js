@@ -53,12 +53,13 @@ function Cart() {
     }, [])
     return (
 
-        <Container fluid className="p-0 mt-5">
+        <Container fluid className="p-0">
             <div className="spacer">
-                <h1 className='my-4'>
+
+                <h4>
                     Your Cart
-                </h1>
-                <div className="loader my-5">
+                </h4>
+                <div className="loader">
                     {
                         loader && <Spinner size={30} variant='success' animation="border" role="status">
                             <span className="visually-hidden">Loading...</span>
@@ -67,7 +68,7 @@ function Cart() {
                 </div>
 
                 {
-                    product.length > 0 ? <div className="mt-5">
+                    product.length > 0 ? <div className="">
                         <table class="table table-group-divider table-hover table-responsive table-striped">
                             <thead>
                                 <tr>

@@ -23,8 +23,12 @@ function Navbar() {
         fetchProduct();
     }, [])
 
+    // <li className="nav-item ">
+    // <Link className="nav-link active" aria-current="page" to="/add-product">Add Product</Link>
+    // </li>
+
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-success fixed-top ">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-success fixed-top1 ">
             <div className="container-fluid ">
                 <Link className="navbar-brand" to="/">
                     <span className="logo fw-bold">
@@ -36,9 +40,7 @@ function Navbar() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item ">
-                            <Link className="nav-link active" aria-current="page" to="/add-product">Add Product</Link>
-                        </li>
+
                         <li className="nav-item ">
                             <Link className="nav-link active" aria-current="page" to="/chat">Chat</Link>
                         </li>
