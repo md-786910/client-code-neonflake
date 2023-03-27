@@ -27,7 +27,7 @@ function Chat() {
                 setResponse(data);
             } catch (err) {
                 console.log(err);
-                setResponse("Error fetching data");
+                setResponse("Error fetching data from open Ai");
             } finally {
                 setLoading(false);
             }
