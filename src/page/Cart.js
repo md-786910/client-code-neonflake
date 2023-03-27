@@ -75,9 +75,7 @@ function Cart() {
                                     <th scope="col">S.No</th>
                                     <th scope="col">Product Name</th>
                                     <th scope="col">Product Description</th>
-                                    <th scope="col">Qty</th>
                                     <th scope="col">Image</th>
-                                    <th scope="col">Last Upadates</th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -90,11 +88,9 @@ function Cart() {
                                                 <th scope="row1">{index + 1}</th>
                                                 <td>{p.productName}</td>
                                                 <td>{p.description}</td>
-                                                <td>{p.qty}</td>
                                                 <td style={{ width: "10%" }}>
                                                     <img src={p.image} alt="img" style={{ width: "100%" }} />
                                                 </td>
-                                                <td>{new Date(p.updatedAt).toUTCString()}</td>
                                                 <td>
                                                     <div className="actionBtn d-flex gap-2 justify-content-between align-items-center">
 
